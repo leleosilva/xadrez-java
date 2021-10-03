@@ -3,21 +3,21 @@ package pecasxadrez;
 import jogoxadrez.Posicao;
 
 public class Cavalo {
-    private String cor;
+    private boolean cor;
     private Posicao posicao;
     private boolean capturada;
     
-    public Cavalo(String cor, Posicao posicao){
+    public Cavalo(boolean cor, Posicao posicao){
         this.cor = cor;
         this.posicao = posicao;
         this.capturada = false;
     }
     
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if("branco".equals(this.getCor())){
+        if(!this.getCor()){ // false; peça branca
             System.out.print("C");
         }
-        else if("preto".equals(this.getCor())){
+        else if(this.getCor()){ // true; peça preta
             System.out.print("c");
         }
     }
@@ -35,7 +35,7 @@ public class Cavalo {
         if(Math.abs(distanciaLinha) == 2 && Math.abs(distanciaColuna) == 1){
             return true;
         }
-        if(Math.abs(distanciaLinha) == 1 && Math.abs(distanciaColuna) == 2){
+        else if(Math.abs(distanciaLinha) == 1 && Math.abs(distanciaColuna) == 2){
             return true;
         }
         return false;
@@ -45,7 +45,7 @@ public class Cavalo {
         return posicao;
     }
     
-    public String getCor() {
+    public boolean getCor() {
         return cor;
     }
 }

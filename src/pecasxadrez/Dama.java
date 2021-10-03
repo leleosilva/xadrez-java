@@ -3,21 +3,21 @@ package pecasxadrez;
 import jogoxadrez.Posicao;
 
 public class Dama {
-    private String cor;
+    private boolean cor;
     private Posicao posicao;
     private boolean capturada;
     
-    public Dama(String cor, Posicao posicao){
+    public Dama(boolean cor, Posicao posicao){
         this.cor = cor;
         this.posicao = posicao;
         this.capturada = false;
     }
     
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if("branco".equals(this.getCor())){
+        if(!this.getCor()){ // false; peça branca
             System.out.print("D");
         }
-        else if("preto".equals(this.getCor())){
+        else if(this.getCor()){ // true; peça preta
             System.out.print("d");
         }
     }
@@ -48,7 +48,7 @@ public class Dama {
         return posicao;
     }
     
-    public String getCor() {
+    public boolean getCor() {
         return cor;
     }
 }
