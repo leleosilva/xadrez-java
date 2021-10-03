@@ -2,18 +2,18 @@ package jogoxadrez;
 
 public class Jogador {
     private String nome;
-    private String cor;
+    private boolean cor;
     
-    public Jogador(String nome, String cor){
+    public Jogador(String nome, boolean cor){
         this.nome = nome;
         this.cor = cor;
     }
-
+    
     public String getNome() {
         return nome;
     }
 
-    public String getCor() {
+    public boolean isCor() {
         return cor;
     }
 }

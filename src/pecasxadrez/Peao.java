@@ -3,21 +3,21 @@ package pecasxadrez;
 import jogoxadrez.Posicao;
 
 public class Peao {
-    private String cor;
+    private boolean cor;
     private Posicao posicao;
     private boolean capturada;
     
-    public Peao(String cor, Posicao posicao){
+    public Peao(boolean cor, Posicao posicao){
         this.cor = cor;
         this.posicao = posicao;
         this.capturada = false;
     }
     
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if("branco".equals(this.getCor())){
+        if(!this.getCor()){ // false; peça branca
             System.out.print("P");
         }
-        else if("preto".equals(this.getCor())){
+        else if(this.getCor()){ // true; peça preta
             System.out.print("p");
         }
     }
@@ -33,14 +33,14 @@ public class Peao {
         */
         
         // Se o peão voltar para trás, o movimento é inválido!
-        if("branco".equals(this.getCor()) && linhaOrigem > linhaDestino
-                || "preto".equals(this.getCor()) && linhaOrigem < linhaDestino){
+        if(!this.getCor() && linhaOrigem > linhaDestino
+                || this.getCor() && linhaOrigem < linhaDestino){
             return false;
         }
         
         // Posição inicial, o peão pode se mover duas posições
-        if(("branco".equals(this.getCor()) && linhaOrigem == 6)
-                || "preto".equals(this.getCor()) && linhaOrigem == 1){
+        if((!this.getCor() && linhaOrigem == 7)
+                || this.getCor() && linhaOrigem == 2){
             if(Math.abs(distanciaLinha) <= 2 && colunaOrigem == colunaDestino){
                 return true;
             }
@@ -55,7 +55,7 @@ public class Peao {
         return posicao;
     }
     
-    public String getCor() {
+    public boolean getCor() {
         return cor;
     }
 }
