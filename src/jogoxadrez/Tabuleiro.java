@@ -7,36 +7,19 @@ public class Tabuleiro {
     /* construtor */
     public Tabuleiro () {
         this.posicoes = new Posicao[8][8]; 
-        this.inicializacaoTabuleiro();
-    }
-    
-    /* inicialização de tabuleiro */
-    public void inicializacaoTabuleiro () {
-        boolean cor;
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                
-                /* Verifica se a posição é branca ou preta
-                 * branco = false; preto = true.
-                 * Se a soma dos índices da posição for par, a posição é preta.
-                 * Caso contrário, é branca.
-                */
                 if(i+j % 2 == 0){
-                    cor = true;
+                    // cria posição preta
+                    this.posicoes[i][j] = new Posicao(i+1, (char)(j + 97), false);
                 }
                 else{
-                    cor = false;
+                    // cria posição branca
+                    this.posicoes[i][j] = new Posicao(i+1, (char)(j + 97), true);
                 }
-                
-                /* A linha de cada posição corresponde ao índice i+1
-                 * (variando de 1 a 8), enquanto a coluna corresponde ao índice
-                 * j + 97 (ou seja, j + 'a', variando de 'a' até 'h').
-                
-                * Ocorre o cast de int para char para armazenar a coluna corretamente.
-                */
-                this.posicoes[i][j] = new Posicao(i+1, (char)(j + 97), cor);
             }
         }
+        System.out.println("O objeto Tabuleiro foi instanciado com sucesso!");
     }
     
     /* checar se a peça dos limites do tabuleiro */

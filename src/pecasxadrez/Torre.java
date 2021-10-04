@@ -3,26 +3,26 @@ package pecasxadrez;
 import jogoxadrez.Posicao;
 
 public class Torre {
-    private boolean cor;
+    private boolean branco;
     private Posicao posicao;
     private boolean capturada;
     
-    public Torre(boolean cor, Posicao posicao){
-        this.cor = cor;
+    public Torre(boolean branco, Posicao posicao){
+        this.branco = branco;
         this.posicao = posicao;
         this.capturada = false;
     }
     
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if(!this.getCor()){ // false; peça branca
+        if(this.isBranco()){ // peça branca
             System.out.print("T");
         }
-        else if(this.getCor()){ // true; peça preta
+        else if(!this.isBranco()){ // peça preta
             System.out.print("t");
         }
     }
     
-    public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino){
+    public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         /* Para que a torre se movimente, ela deve se manter na mesma linha inicial
          * (apenas trocando de coluna) ou na mesma coluna inicial (apenas trocando
          * de linha).
@@ -41,7 +41,7 @@ public class Torre {
         return posicao;
     }
     
-    public boolean getCor() {
-        return cor;
+    public boolean isBranco() {
+        return branco;
     }
 }
