@@ -3,26 +3,26 @@ package pecasxadrez;
 import jogoxadrez.Posicao;
 
 public class Rei {
-    private boolean cor;
+    private boolean branco;
     private Posicao posicao;
     private boolean capturada;
     
-    public Rei(boolean cor, Posicao posicao){
-        this.cor = cor;
+    public Rei(boolean branco, Posicao posicao){
+        this.branco = branco;
         this.posicao = posicao;
         this.capturada = false;
     }
     
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if(!this.getCor()){ // false; peça branca
+        if(this.isBranco()){ // peça branca
             System.out.print("R");
         }
-        else if(this.getCor()){ // true; peça preta
+        else if(!this.isBranco()){ // peça preta
             System.out.print("r");
         }
     }
     
-    public boolean checaMovimento(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino){
+    public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
         
@@ -38,7 +38,7 @@ public class Rei {
         return posicao;
     }
     
-    public boolean getCor() {
-        return cor;
+    public boolean isBranco() {
+        return branco;
     }
 }
