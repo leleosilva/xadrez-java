@@ -1,3 +1,5 @@
+// TESTADOOOOOOOOO
+
 package jogoxadrez;
 
 public class Tabuleiro {
@@ -24,7 +26,7 @@ public class Tabuleiro {
     
     /* checar se a peça dos limites do tabuleiro */
     public boolean verificaLimitesTabuleiro (int linha, char coluna) {
-        
+        linha = linha - 48;
         // verifica se linha desejada está dentro dos limites do tabuleiro
         if (linha >= 1 && linha <= 8) {
             

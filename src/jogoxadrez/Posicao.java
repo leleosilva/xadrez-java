@@ -19,7 +19,6 @@ public class Posicao {
                 this.coluna = coluna;
                 this.branco = branco;
                 this.ocupada = false;
-                System.out.println("O objeto Posição foi instanciado com sucesso!");
             }
         }
     }
