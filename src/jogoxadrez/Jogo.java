@@ -6,6 +6,7 @@ public class Jogo {
     private Jogador jogador2;
     // estado 1 = início; estado 2 = xeque; estado 3 = xeque-mate
     private int estado;
+    // vezRodada = true (branco joga); vezRodada = false (preto joga)
     private boolean vezRodada;
     
     /* construtor */
@@ -36,10 +37,6 @@ public class Jogo {
     }
 
     public void setVezRodada(boolean vezRodada) {
-        /* Se vezRodada é true (preto joga), então vezRodada recebe o valor lógico
-         * oposto (false, branco joga). Caso vezRodada seja false, o mesmo acontece.
-        */
         this.vezRodada = !this.vezRodada;
     }
-    
 }
