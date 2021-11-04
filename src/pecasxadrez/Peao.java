@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Peao {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Peao(boolean branco, Posicao posicao){
+    public Peao(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -23,36 +19,34 @@ public class Peao {
     }
     
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
-        int distanciaLinha = linhaDestino - linhaOrigem;
-        
+        int distanciaLinhaBranco =  linhaOrigem - linhaDestino;
+        int distanciaLinhaPreto = linhaDestino - linhaOrigem;
         /*
-         * O peão pode se movimentar duas casas quando se encontra em sua posição
-         * inicial. Caso contrário, ele apenas poderá se movimentar uma casa.
+         * O peão pode se movimentar duas posições quando se encontra em sua posição
+         * inicial. Caso contrário, ele apenas poderá se movimentar uma posição.
          * Em ambos os casos, a coluna de origem e de destino devem ser iguais.
          * O peão não pode se movimentar para trás!
         */
         
-        // Se o peão voltar para trás, o movimento é inválido!
-        if(this.isBranco() && linhaOrigem > linhaDestino
-                || !this.isBranco() && linhaOrigem < linhaDestino){
-            return false;
-        }
-        
-        // Posição inicial, o peão pode se mover duas posições
-        if((this.isBranco() && linhaOrigem == 7)
-                || !this.isBranco() && linhaOrigem == 2){
-            if(Math.abs(distanciaLinha) <= 2 && colunaOrigem == colunaDestino){
-                return true;
+        // Peão branco, inicia na linha 7 e se movimenta apenas para cima
+        if(this.isBranco()){
+            // O peão não pode trocar de coluna
+            if(colunaOrigem == colunaDestino){
+                if((distanciaLinhaBranco == 1) || linhaOrigem == 7 && distanciaLinhaBranco == 2){
+                    return true;
+                }
             }
         }
-        else if(Math.abs(distanciaLinha) == 1 && colunaOrigem == colunaDestino){
-            return true;
+        // Peão preto, inicia na linha 2 e se movimenta apenas para baixo
+        else{
+            // O peão não pode trocar de coluna
+            if(colunaOrigem == colunaDestino){
+                if((distanciaLinhaPreto == 1) || linhaOrigem == 2 && distanciaLinhaPreto == 2){
+                    return true;
+                }
+            }
         }
         return false;
-    }
-    
-    public Posicao getPosicao() {
-        return posicao;
     }
     
     public boolean isBranco() {

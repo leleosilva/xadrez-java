@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Cavalo {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Cavalo(boolean branco, Posicao posicao){
+    public Cavalo(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -39,10 +35,6 @@ public class Cavalo {
             return true;
         }
         return false;
-    }
-    
-    public Posicao getPosicao() {
-        return posicao;
     }
     
     public boolean isBranco() {

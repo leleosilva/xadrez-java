@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Bispo {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Bispo(boolean branco, Posicao posicao){
+    public Bispo(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -31,11 +27,7 @@ public class Bispo {
          * linhas de destino e origem e o módulo da diferença entre colunas de
          * destino e origem devem ser iguais.
         */
-        return Math.abs(distanciaLinha) == Math.abs(distanciaColuna);
-    }
-    
-    public Posicao getPosicao() {
-        return posicao;
+        return Math.abs(distanciaLinha) == Math.abs(distanciaColuna) && Math.abs(distanciaLinha) != 0;
     }
     
     public boolean isBranco() {

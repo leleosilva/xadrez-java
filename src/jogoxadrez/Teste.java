@@ -10,14 +10,17 @@ public class Teste {
         Scanner in = new Scanner(System.in);
         String movimento, nome1, nome2, cor, ocupacao, jogadorRodada;
         boolean branco, ocupada, vez, movimentoValido = true;
-        int estadoJogo;
+        int estadoJogo;       
+        char[] coordenadasMovimento;
+        int linhaOrigem, linhaDestino;
+        char colunaOrigem, colunaDestino;
         
         
         // PARTE 1: TESTES DAS CLASSES GERAIS
         
         
         /* Classe Tabuleiro */
-        
+
         
         // TESTE 1
         System.out.println("Teste 1: Instanciando objeto da classe Tabuleiro");
@@ -35,7 +38,7 @@ public class Teste {
         System.out.println("Teste 3: Verificando se movimento está dentro dos"
                 + " limites do tabuleiro");
         while(true){
-            System.out.print("Digite a posição para onde deseja se mover! (-1 para sair): ");
+            System.out.print("Digite a posição para onde deseja se mover! Ex: c7 (-1 para sair): ");
             movimento = in.next();
             
             if("-1".equals(movimento)){
@@ -50,7 +53,7 @@ public class Teste {
                 * coordenadasMovimento[0] = coluna
                 * coordenadasMovimento[1] = linha */
 
-                char[] coordenadasMovimento = movimento.toCharArray();
+                coordenadasMovimento = movimento.toCharArray();
 
                 /* coordenadasMovimento[1] é uma String representando 1 a 8,
                 * então subtraímos 48 (caractere 0 na tabela ASCII) para
@@ -237,7 +240,7 @@ public class Teste {
                 System.out.println();
             }
             else{
-                char[] coordenadasMovimento = movimento.toCharArray();
+                coordenadasMovimento = movimento.toCharArray();
 
                 if(tabuleiro.verificaLimitesTabuleiro(coordenadasMovimento[1], coordenadasMovimento[0])){
                     jogo.setVezRodada(vez);
@@ -260,16 +263,16 @@ public class Teste {
         System.out.println("Teste 12: Instanciação de peças do tipo Bispo,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Bispo b1 = new Bispo(true, p4); // Instanciando bispo branco
-        Bispo b2 = new Bispo(false, p5); // Instanciando bispo preto
+        Bispo b1 = new Bispo(true); // Instanciando bispo branco
+        Bispo b2 = new Bispo(false); // Instanciando bispo preto
         
         branco = b1.isBranco();
         cor = branco ? "branca" : "preta";
-        System.out.println("O bispo p1 é de cor " + cor);
+        System.out.println("O bispo b1 é de cor " + cor);
         
         branco = b2.isBranco();
         cor = branco ? "branca" : "preta";
-        System.out.println("O bispo p2 é de cor " + cor);
+        System.out.println("O bispo b2 é de cor " + cor);
         
         b1.desenho();
         System.out.println();
@@ -280,6 +283,29 @@ public class Teste {
         // TESTE 13
         System.out.println("Teste 13: Checando movimento do bispo através da"
                 + " função checaMovimento()");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(b1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
         
         
@@ -290,8 +316,8 @@ public class Teste {
         System.out.println("Teste 14: Instanciação de peças do tipo Cavalo,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Cavalo c1 = new Cavalo(true, p4); // Instanciando cavalo branco
-        Cavalo c2 = new Cavalo(false, p5); // Instanciando cavalo preto
+        Cavalo c1 = new Cavalo(true); // Instanciando cavalo branco
+        Cavalo c2 = new Cavalo(false); // Instanciando cavalo preto
         
         branco = c1.isBranco();
         cor = branco ? "branca" : "preta";
@@ -310,6 +336,29 @@ public class Teste {
         // TESTE 15
         System.out.println("Teste 15: Checando movimento do cavalo através da"
                 + " função checaMovimento()");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(c1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
         
         
@@ -320,8 +369,8 @@ public class Teste {
         System.out.println("Teste 16: Instanciação de peças do tipo Dama,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Dama d1 = new Dama(true, p4); // Instanciando dama branca
-        Dama d2 = new Dama(false, p5); // Instanciando dama preta
+        Dama d1 = new Dama(true); // Instanciando dama branca
+        Dama d2 = new Dama(false); // Instanciando dama preta
         
         branco = d1.isBranco();
         cor = branco ? "branca" : "preta";
@@ -340,6 +389,29 @@ public class Teste {
         // TESTE 17
         System.out.println("Teste 17: Checando movimento da dama através da"
                 + " função checaMovimento()");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(d1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
         
         
@@ -350,8 +422,8 @@ public class Teste {
         System.out.println("Teste 18: Instanciação de peças do tipo Peão,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Peao pe1 = new Peao(true, p4); // Instanciando peão branco
-        Peao pe2 = new Peao(false, p5); // Instanciando peão preto
+        Peao pe1 = new Peao(true); // Instanciando peão branco
+        Peao pe2 = new Peao(false); // Instanciando peão preto
         
         branco = pe1.isBranco();
         cor = branco ? "branca" : "preta";
@@ -367,11 +439,61 @@ public class Teste {
         System.out.println("\n");
         
         
-        // TESTE 19
+        // TESTE 19.1
         System.out.println("Teste 19: Checando movimento do peão através da"
-                + " função checaMovimento()");
+                + " função checaMovimento() (peão branco!)");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(pe1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
         
+        // TESTE 19.2
+        System.out.println("Teste 19: Checando movimento do peão através da"
+                + " função checaMovimento() (peão preto!)");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(pe2.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
+        System.out.println();
         
         /* Classe Rei */
         
@@ -380,8 +502,8 @@ public class Teste {
         System.out.println("Teste 20: Instanciação de peças do tipo Rei,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Rei r1 = new Rei(true, p4); // Instanciando rei branco
-        Rei r2 = new Rei(false, p5); // Instanciando rei preto
+        Rei r1 = new Rei(true); // Instanciando rei branco
+        Rei r2 = new Rei(false); // Instanciando rei preto
         
         branco = r1.isBranco();
         cor = branco ? "branca" : "preta";
@@ -400,6 +522,29 @@ public class Teste {
         // TESTE 21
         System.out.println("Teste 21: Checando movimento do rei através da"
                 + " função checaMovimento()");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(r1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
         
         
@@ -410,8 +555,8 @@ public class Teste {
         System.out.println("Teste 12: Instanciação de peças do tipo Torre,"
                 + " verificando sua cor e testando seu método desenho()");
         
-        Torre t1 = new Torre(true, p4); // Instanciando torre branca
-        Torre t2 = new Torre(false, p5); // Instanciando torre preta
+        Torre t1 = new Torre(true); // Instanciando torre branca
+        Torre t2 = new Torre(false); // Instanciando torre preta
         
         branco = t1.isBranco();
         cor = branco ? "branca" : "preta";
@@ -430,6 +575,41 @@ public class Teste {
         // TESTE 23
         System.out.println("Teste 23: Checando movimento da torre através da"
                 + " função checaMovimento()");
+        while(true){
+            System.out.print("Linha de origem: ");
+            linhaOrigem = in.nextInt();
+            System.out.print("Coluna de origem: ");
+            colunaOrigem = in.next().charAt(0);
+            System.out.print("Linha de destino: ");
+            linhaDestino = in.nextInt();
+            System.out.print("Coluna de destino: ");
+            colunaDestino = in.next().charAt(0);
+            
+            if(t1.checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+                System.out.println("A peça se movimentou!");
+            }
+            else{
+                System.out.println("Movimento inválido!");
+            }
+            System.out.print("\nDigite 0 caso deseje sair, ou qualquer outro número caso deseje continuar: ");
+            linhaOrigem = in.nextInt();
+            System.out.println();
+            if(linhaOrigem == 0){
+                break;
+            }
+        }
         System.out.println();
+        
+        
+        // PARTE 3: TESTE DA FUNÇÃO PARTIDA() (INCOMPLETA)
+        
+        
+        // TESTE 24
+        System.out.println("Teste 24: Função partida() (incompleta)");
+        jogo.setEstado(1);
+        jogo.partida();
+        
+        
+        in.close();
     }
 }

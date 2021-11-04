@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Torre {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Torre(boolean branco, Posicao posicao){
+    public Torre(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -28,17 +24,15 @@ public class Torre {
          * de linha).
         */
         
-        if(linhaOrigem == linhaDestino){
+        // Movimentando-se horizontalmente
+        if(linhaOrigem == linhaDestino && colunaOrigem != colunaDestino){
             return true;
         }
-        else if(colunaOrigem == colunaDestino){
+        // Movimentando-se verticalmente
+        else if(colunaOrigem == colunaDestino && linhaOrigem != linhaDestino){
             return true;
         }
         return false;
-    }
-    
-    public Posicao getPosicao() {
-        return posicao;
     }
     
     public boolean isBranco() {
