@@ -1,5 +1,3 @@
-// TESTADOOOOOOOOOOO
-
 package jogoxadrez;
 
 public class Jogador {

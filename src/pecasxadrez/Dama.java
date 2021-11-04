@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Dama {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Dama(boolean branco, Posicao posicao){
+    public Dama(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -30,22 +26,19 @@ public class Dama {
         */
         
         // Movimentando-se como um bispo
-        if(Math.abs(distanciaLinha) == Math.abs(distanciaColuna)){
+        if(Math.abs(distanciaLinha) == Math.abs(distanciaColuna) && Math.abs(distanciaLinha) != 0){
             return true;
         }
         
         // Movimentando-se como uma torre
-        else if(linhaOrigem == linhaDestino){
+        else if(linhaOrigem == linhaDestino && colunaOrigem != colunaDestino){
             return true;
         }
-        else if(colunaOrigem == colunaDestino){
+        // Movimentando-se verticalmente
+        else if(colunaOrigem == colunaDestino && linhaOrigem != linhaDestino){
             return true;
         }
         return false;
-    }
-
-    public Posicao getPosicao() {
-        return posicao;
     }
     
     public boolean isBranco() {

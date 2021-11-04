@@ -1,15 +1,11 @@
 package pecasxadrez;
 
-import jogoxadrez.Posicao;
-
 public class Rei {
     private boolean branco;
-    private Posicao posicao;
     private boolean capturada;
     
-    public Rei(boolean branco, Posicao posicao){
+    public Rei(boolean branco){
         this.branco = branco;
-        this.posicao = posicao;
         this.capturada = false;
     }
     
@@ -31,11 +27,12 @@ public class Rei {
          * Portanto, a módulo da diferença entre as linhas e o módulo da diferença
          * entre as colunas devem ser menores ou iguais a 1.
         */
-        return Math.abs(distanciaLinha) <= 1 && Math.abs(distanciaColuna) <= 1;
-    }
-    
-    public Posicao getPosicao() {
-        return posicao;
+        if(Math.abs(distanciaLinha) == 1 || Math.abs(distanciaColuna) == 1){
+            if(Math.abs(distanciaLinha) <= 1 && Math.abs(distanciaColuna) <= 1){
+                return true;
+            }
+        }
+        return false;
     }
     
     public boolean isBranco() {
