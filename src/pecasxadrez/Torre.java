@@ -1,14 +1,12 @@
 package pecasxadrez;
 
-public class Torre {
-    private boolean branco;
-    private boolean capturada;
+public class Torre extends Peca {
     
     public Torre(boolean branco){
-        this.branco = branco;
-        this.capturada = false;
+        super(branco);
     }
     
+    @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
         if(this.isBranco()){ // peça branca
             System.out.print("T");
@@ -18,6 +16,7 @@ public class Torre {
         }
     }
     
+    @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         /* Para que a torre se movimente, ela deve se manter na mesma linha inicial
          * (apenas trocando de coluna) ou na mesma coluna inicial (apenas trocando
@@ -33,9 +32,5 @@ public class Torre {
             return true;
         }
         return false;
-    }
-    
-    public boolean isBranco() {
-        return branco;
     }
 }

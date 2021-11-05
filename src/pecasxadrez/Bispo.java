@@ -1,14 +1,12 @@
 package pecasxadrez;
 
-public class Bispo {
-    private boolean branco;
-    private boolean capturada;
+public class Bispo extends Peca {
     
     public Bispo(boolean branco){
-        this.branco = branco;
-        this.capturada = false;
+        super(branco);
     }
     
+    @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
         if(this.isBranco()){ // peça branca
             System.out.print("B");
@@ -18,6 +16,7 @@ public class Bispo {
         }
     }
     
+    @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
@@ -29,10 +28,4 @@ public class Bispo {
         */
         return Math.abs(distanciaLinha) == Math.abs(distanciaColuna) && Math.abs(distanciaLinha) != 0;
     }
-    
-    public boolean isBranco() {
-        return branco;
-    }
-    
-    
 }

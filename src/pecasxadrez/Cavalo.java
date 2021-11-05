@@ -1,14 +1,12 @@
 package pecasxadrez;
 
-public class Cavalo {
-    private boolean branco;
-    private boolean capturada;
+public class Cavalo extends Peca {
     
     public Cavalo(boolean branco){
-        this.branco = branco;
-        this.capturada = false;
+        super(branco);
     }
     
+    @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
         if(this.isBranco()){ // peça branca
             System.out.print("C");
@@ -18,6 +16,7 @@ public class Cavalo {
         }
     }
     
+    @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
@@ -35,9 +34,5 @@ public class Cavalo {
             return true;
         }
         return false;
-    }
-    
-    public boolean isBranco() {
-        return branco;
     }
 }
