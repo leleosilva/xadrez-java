@@ -1,17 +1,18 @@
 package jogoxadrez;
 
+import pecasxadrez.Peca;
+
 public class Posicao {
     private int linha;
     private char coluna;
     private boolean branco;
     private boolean ocupada;
+    private Peca peca;
     
     public Posicao(int linha, char coluna, boolean branco){
-        if(linha < 1 || linha > 8) {
-            System.out.println("A linha escolhida é inválida!");
+        if(linha < 1 || linha > 8){
         }
         if(coluna < 'a' || coluna > 'h'){
-            System.out.println("A coluna escolhida é inválida!");
         }
         else if(linha >= 1 && linha <= 8){
             if(coluna >= 'a' && coluna <= 'h'){
@@ -41,5 +42,13 @@ public class Posicao {
 
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
+    }
+
+    public Peca getPeca() {
+        return peca;
+    }
+    
+    public void setPeca(Peca peca) {
+        this.peca = peca;
     }
 }

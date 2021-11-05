@@ -1,6 +1,7 @@
 package jogoxadrez;
 
 import java.util.Scanner;
+import pecasxadrez.*;
 
 public class Jogo {
     private Tabuleiro tabuleiro;
@@ -13,12 +14,11 @@ public class Jogo {
     
     /* construtor */
     public Jogo (String nome1, String nome2){
-        this.tabuleiro = new Tabuleiro();
-        this.jogador1 = new Jogador(nome1, true);
-        this.jogador2 = new Jogador(nome2, false);
+        this.jogador1 = new Jogador(nome1, true, criarPecas(true));
+        this.jogador2 = new Jogador(nome2, false, criarPecas(false));
+        this.tabuleiro = new Tabuleiro(jogador1.getPecas(),  jogador2.getPecas());
         this.estado = 1;
         this.vezRodada = true;
-        System.out.println("O objeto Jogo foi instanciado com sucesso!");
     }
     
     public void partida(){
@@ -69,6 +69,33 @@ public class Jogo {
            }
        }
         input.close();
+    }
+    
+    /* Método que cria um vetor de 16 peças em ordem, para facilitar a visualização
+     * das peças ativas e capturadas de um jogador */
+    private Peca[] criarPecas(boolean branco){
+        Peca[] pecas = new Peca[16];
+        for(int i = 0; i < 16; i++){
+            if(i < 8){
+                pecas[i] = new Peao(branco);
+            }
+            else if(i < 10){
+                pecas[i] = new Torre(branco);
+            }
+            else if(i < 12){
+                pecas[i] = new Cavalo(branco);
+            }
+            else if(i < 14){
+                pecas[i] = new Bispo(branco);
+            }
+            else if(i == 14){
+                pecas[i] = new Dama(branco);
+            }
+            else if(i == 15){
+                pecas[i] = new Rei(branco);
+            }
+        }
+        return pecas;
     }
     
     public int getEstado() {

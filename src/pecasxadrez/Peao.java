@@ -1,14 +1,12 @@
 package pecasxadrez;
 
-public class Peao {
-    private boolean branco;
-    private boolean capturada;
+public class Peao extends Peca {
     
     public Peao(boolean branco){
-        this.branco = branco;
-        this.capturada = false;
+        super(branco);
     }
     
+    @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
         if(this.isBranco()){ // peça branca
             System.out.print("P");
@@ -18,6 +16,7 @@ public class Peao {
         }
     }
     
+    @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinhaBranco =  linhaOrigem - linhaDestino;
         int distanciaLinhaPreto = linhaDestino - linhaOrigem;
@@ -47,9 +46,5 @@ public class Peao {
             }
         }
         return false;
-    }
-    
-    public boolean isBranco() {
-        return branco;
     }
 }

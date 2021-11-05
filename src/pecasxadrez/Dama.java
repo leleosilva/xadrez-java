@@ -1,14 +1,12 @@
 package pecasxadrez;
 
-public class Dama {
-    private boolean branco;
-    private boolean capturada;
+public class Dama extends Peca {
     
     public Dama(boolean branco){
-        this.branco = branco;
-        this.capturada = false;
+        super(branco);
     }
     
+    @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
         if(this.isBranco()){ // peça branca
             System.out.print("D");
@@ -18,6 +16,7 @@ public class Dama {
         }
     }
     
+    @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
@@ -39,9 +38,5 @@ public class Dama {
             return true;
         }
         return false;
-    }
-    
-    public boolean isBranco() {
-        return branco;
     }
 }
