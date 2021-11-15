@@ -8,10 +8,10 @@ public class Cavalo extends Peca {
     
     @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if(this.isBranco()){ // peça branca
+        if(isBranco()){ // peça branca
             System.out.print("C");
         }
-        else if(!this.isBranco()){ // peça preta
+        else if(!isBranco()){ // peça preta
             System.out.print("c");
         }
     }
@@ -20,7 +20,6 @@ public class Cavalo extends Peca {
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
-        
         /*
          * É possível observar um padrão na movimentação do cavalo. Sempre que
          * ele se move para uma nova posição, o módulo da distância entre as
@@ -30,9 +29,6 @@ public class Cavalo extends Peca {
         if(Math.abs(distanciaLinha) == 2 && Math.abs(distanciaColuna) == 1){
             return true;
         }
-        else if(Math.abs(distanciaLinha) == 1 && Math.abs(distanciaColuna) == 2){
-            return true;
-        }
-        return false;
+        return Math.abs(distanciaLinha) == 1 && Math.abs(distanciaColuna) == 2;
     }
 }

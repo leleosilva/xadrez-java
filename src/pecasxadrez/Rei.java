@@ -8,10 +8,10 @@ public class Rei extends Peca {
     
     @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if(this.isBranco()){ // peça branca
+        if(isBranco()){ // peça branca
             System.out.print("R");
         }
-        else if(!this.isBranco()){ // peça preta
+        else if(!isBranco()){ // peça preta
             System.out.print("r");
         }
     }

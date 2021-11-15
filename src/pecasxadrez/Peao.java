@@ -8,16 +8,17 @@ public class Peao extends Peca {
     
     @Override
     public void desenho(){ // método para impressão da peça no tabuleiro
-        if(this.isBranco()){ // peça branca
+        if(isBranco()){ // peça branca
             System.out.print("P");
         }
-        else if(!this.isBranco()){ // peça preta
+        else if(!isBranco()){ // peça preta
             System.out.print("p");
         }
     }
     
     @Override
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
+        
         int distanciaLinhaBranco =  linhaOrigem - linhaDestino;
         int distanciaLinhaPreto = linhaDestino - linhaOrigem;
         /*

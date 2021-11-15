@@ -15,6 +15,7 @@ public class Jogador {
     }
     
     public void pecasCapturadas(){
+        System.out.println();
         System.out.print("Peças capturadas:");
         for(int i = 0; i < 16; i++){
             if(pecas[i].isCapturada()){
@@ -22,6 +23,7 @@ public class Jogador {
                 pecas[i].desenho();
             }
         }
+        System.out.println("\n");
     }
     
     public String getNome() {
