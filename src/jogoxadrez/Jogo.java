@@ -28,6 +28,24 @@ public class Jogo {
         
         while(estado == 1){
             movimentarPeca();
+            try{
+                if(tabuleiro.verificaReiEmXeque(false)){
+                    System.out.println("O REI PRETO ESTÁ EM XEQUE!!!");
+                }
+            }
+            catch(NullPointerException ex){
+                System.out.println("FIM DE JOGO! JOGADOR BRANCO GANHOU!!!!!!!!!!");
+                estado = 3;
+            }
+            try{
+                if(tabuleiro.verificaReiEmXeque(true)){
+                    System.out.println("O REI BRANCO ESTÁ EM XEQUE!!!");
+                }
+            }
+            catch(NullPointerException ex){
+                System.out.println("FIM DE JOGO! JOGADOR PRETO GANHOU!!!!!!!!!!");
+                estado = 3;
+            }
         }
     }
     
@@ -109,7 +127,7 @@ public class Jogo {
                 if(tabuleiro.checaMovimento(coordenadasMovimentoOrigem[1], coordenadasMovimentoOrigem[0], coordenadasMovimentoDestino[1], coordenadasMovimentoDestino[0])){
                     tabuleiro.moverPeca(coordenadasMovimentoOrigem[1], coordenadasMovimentoOrigem[0], coordenadasMovimentoDestino[1], coordenadasMovimentoDestino[0]);
                     alteraTurno(isTurno());
-                    break;
+                    return;
                 }
                 else{
                     System.out.println("Movimento inválido!");

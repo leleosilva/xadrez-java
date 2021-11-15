@@ -239,6 +239,62 @@ public class Tabuleiro {
         posicoes[lOrigem][cOrigem].setOcupada(false);
     }
     
+    private Posicao verificaPosicaoRei(boolean branca){
+        // Verifica a posição do Rei branco
+        if(branca == true){
+            for(int i = 0; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    if(posicoes[i][j].isOcupada()){
+                        if(posicoes[i][j].getPeca() instanceof Rei && posicoes[i][j].getPeca().isBranco() == true){
+                            return posicoes[i][j];
+                        }
+                    }
+                }
+            }
+        }
+        // Verifica a posição do Rei preto
+        else{
+            for(int i = 0; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    if(posicoes[i][j].isOcupada()){
+                        if(posicoes[i][j].getPeca() instanceof Rei && posicoes[i][j].getPeca().isBranco() == false){
+                            return posicoes[i][j];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    /* Método que verifica se o Rei está em xeque.
+     * Caso o Rei seja capturado após o aviso de xeque, lança uma exceção do tipo
+     * NullPointerException, indicando fim de jogo.
+    */
+    public boolean verificaReiEmXeque(boolean branca) throws NullPointerException{
+        
+        // Retorna posição do Rei; caso ele tenha sido capturado, retorna nulo
+        Posicao pRei = verificaPosicaoRei(branca);
+        
+        // Percorre todo o tabuleiro, verificando se peças adversárias podem capturar o Rei
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(posicoes[i][j].isOcupada() && posicoes[i][j].getPeca().isBranco() != branca){
+                    if(checaMovimento(i + '1', (char)(j + 'a'), pRei.getLinha() + '0', pRei.getColuna())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    // Método que verifica se o Rei está em xeque-mate
+    public boolean verificaReiEmXequeMate(boolean branca){
+        return false;
+    }
+    
+    // Método que inicialmente insere as peças no tabuleiro, criando sua configuração inicial
     private void inserePecasTabuleiro(Peca[] pecas){
         
         int linha;
