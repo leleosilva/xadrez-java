@@ -7,13 +7,11 @@ public class Cavalo extends Peca {
     }
     
     @Override
-    public void desenho(){ // método para impressão da peça no tabuleiro
+    public String desenho(){ // método para retorno da representação da peça no tabuleiro
         if(isBranco()){ // peça branca
-            System.out.print("C");
+            return "C";
         }
-        else if(!isBranco()){ // peça preta
-            System.out.print("c");
-        }
+        return "c"; // peça preta
     }
     
     @Override

@@ -7,13 +7,11 @@ public class Torre extends Peca {
     }
     
     @Override
-    public void desenho(){ // método para impressão da peça no tabuleiro
+    public String desenho(){ // método para retorno da representação da peça no tabuleiro
         if(isBranco()){ // peça branca
-            System.out.print("T");
+            return "T";
         }
-        else if(!isBranco()){ // peça preta
-            System.out.print("t");
-        }
+        return "t"; // peça preta
     }
     
     @Override

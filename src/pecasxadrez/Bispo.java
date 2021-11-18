@@ -7,13 +7,11 @@ public class Bispo extends Peca {
     }
     
     @Override
-    public void desenho(){ // método para impressão da peça no tabuleiro
+    public String desenho(){ // método para retorno da representação da peça no tabuleiro
         if(this.isBranco()){ // peça branca
-            System.out.print("B");
+            return "B";
         }
-        else if(!this.isBranco()){ // peça preta
-            System.out.print("b");
-        }
+        return "b"; // peça preta
     }
     
     @Override
