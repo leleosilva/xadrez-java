@@ -7,13 +7,12 @@ public class Dama extends Peca {
     }
     
     @Override
-    public void desenho(){ // método para impressão da peça no tabuleiro
+    public String desenho(){ // método para retorno da representação da peça no tabuleiro
         if(isBranco()){ // peça branca
-            System.out.print("D");
+            return "D";
         }
-        else if(!isBranco()){ // peça preta
-            System.out.print("d");
-        }
+        return "d"; // peça preta
+
     }
     
     @Override

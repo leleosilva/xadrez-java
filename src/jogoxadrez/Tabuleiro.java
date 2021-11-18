@@ -6,7 +6,7 @@ public class Tabuleiro {
     
     private Posicao posicoes[][];
     
-    /* construtor */
+    // Construtor da classe Tabuleiro
     public Tabuleiro (Peca[] pecasBrancas, Peca[] pecasPretas){
         this.posicoes = new Posicao[8][8]; 
         for (int i = 0; i < 8; i++){
@@ -25,7 +25,7 @@ public class Tabuleiro {
         inserePecasTabuleiro(pecasPretas);
     }
     
-    /* impressão do tabuleiro */
+    // Impressão do tabuleiro de acordo com os turnos concluídos
     public void imprimirTabuleiro () {
         System.out.println();
         for (int i = 0; i < 8; i++){
@@ -33,7 +33,7 @@ public class Tabuleiro {
             for (int j = 0; j < 8; j++){
                 if(posicoes[i][j].isOcupada()){ // Verifica se posição está ocupada
                     System.out.print(" ");
-                    posicoes[i][j].getPeca().desenho(); // Imprime representação da peça
+                    System.out.print(posicoes[i][j].getPeca().desenho()); // Imprime representação da peça
                     System.out.print(" ");
                 }
                 else{
@@ -50,6 +50,8 @@ public class Tabuleiro {
         System.out.println("\n");
     }
     
+    /* Método público utilizado para verificar se um determinado movimento é válido.
+     * Esse método reúne métodos privados que verificam diferentes aspectos de um movimento. */
     public boolean checaMovimento(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
         
         // Convertendo numerações da tabela ASCII para índices de 0 a 7
@@ -58,8 +60,13 @@ public class Tabuleiro {
         int lDestino = linhaDestino - 49;
         int cDestino = colunaDestino - 97;
         
-        // Uma posição de origem desocupada é inválida!
-        if(!posicoes[lOrigem][cOrigem].isOcupada()){
+        try{
+            // Uma posição de origem desocupada é inválida!
+            if(!posicoes[lOrigem][cOrigem].isOcupada()){
+                return false;
+            }
+        }
+        catch(IndexOutOfBoundsException ex){
             return false;
         }
         // Verifica se as posições de origem e destino estão dentro dos limites do tabuleiro
@@ -74,6 +81,7 @@ public class Tabuleiro {
                     }
                 }
             }
+            // Verifica o movimento de captura do Peão
             if(posicoes[lOrigem][cOrigem].getPeca() instanceof Peao){
                 if(verificaMovimentoPeao(lOrigem, cOrigem, lDestino, cDestino)){
                     return true;
@@ -83,13 +91,13 @@ public class Tabuleiro {
         return false;
     }
     
-    /* checar se a peça dos limites do tabuleiro */
+    // Verifica se uma determinada linha e coluna estão dentro dos limites do tabuleiro
     public boolean verificaLimitesTabuleiro (int linha, char coluna) {
         linha = linha - 48;
-        // verifica se linha desejada está dentro dos limites do tabuleiro
+        // Verifica se linha desejada está dentro dos limites do tabuleiro
         if (linha >= 1 && linha <= 8) {
             
-            // verifica se coluna desejada está dentro dos limites do tabuleiro
+            // Verifica se coluna desejada está dentro dos limites do tabuleiro
             if (coluna >= 'a' && coluna <= 'h') {
                 return true;
             }    
@@ -97,12 +105,13 @@ public class Tabuleiro {
         return false;
     }
     
+    /* Verifica se um caminho de uma posição de origem até uma posição de destino
+     * está livre, de acordo com a peça e com o tipo de movimento. */
     private boolean verificaCaminho(int lOrigem, int cOrigem, int lDestino, int cDestino){
 
-        Posicao pOrigem, pDestino;
+        Posicao pOrigem;
         try{
             pOrigem = posicoes[lOrigem][cOrigem];
-            pDestino = posicoes[lDestino][cDestino];
         }
         catch(IndexOutOfBoundsException ex){
             return false;
@@ -175,6 +184,8 @@ public class Tabuleiro {
         return true;
     }
     
+    /* Método que verifica se a posição de destino está desocupada, ocupada por
+     * uma peça de mesma cor ou ocupada por uma peça adversária. */
     private boolean verificaOcupacaoDestino(int lOrigem, int cOrigem, int lDestino, int cDestino){
         
         Posicao pOrigem, pDestino;
@@ -188,6 +199,17 @@ public class Tabuleiro {
         
         // Verifica se a posição de destino está ocupada
         if(pDestino.isOcupada()){
+            
+            /* Mesmo que uma posição esteja ocupada por uma peça de cor diferente em
+             * relação a um certo Peão, este Peão não poderá ocupar essa posição, já
+             * que ele só pode ocupar posições que possuem peças adversárias na diagonal!
+             *
+             * O comportamento de captura do Peão não é implementado por esse método!
+             */
+            if(pOrigem.getPeca() instanceof Peao){
+                return false;
+            }
+            
             /* Caso esteja ocupada, o movimento só pode ocorrer se a cor da peça
              * ocupante for diferente da peça que está se movimentando */
             return pOrigem.getPeca().isBranco() == !pDestino.getPeca().isBranco();
@@ -195,7 +217,7 @@ public class Tabuleiro {
         return true;
     }
     
-    // Método que verifica a movimentação diagonal do Peão
+    // Método que verifica a movimentação de captura diagonal do Peão
     private boolean verificaMovimentoPeao(int lOrigem, int cOrigem, int lDestino, int cDestino){
         Posicao pOrigem, pDestino;
         try{
@@ -208,9 +230,11 @@ public class Tabuleiro {
         
         // O peão só pode se movimentar na diagonal em colunas adjacentes à sua posição atual
         if(cDestino == cOrigem + 1 || cDestino == cOrigem - 1){
+            
             // Verifica se a movimentação do peão está correta de acordo com sua cor
             if(pOrigem.getPeca().isBranco() && lDestino - lOrigem == -1
                     || !pOrigem.getPeca().isBranco() && lDestino - lOrigem == 1){
+                
                 // O peão só pode se movimentar na diagonal se a posição de destino contiver peças adversárias
                 if(pDestino.isOcupada()){
                     return pOrigem.getPeca().isBranco() == !pDestino.getPeca().isBranco();
@@ -220,7 +244,13 @@ public class Tabuleiro {
         return false;
     }
     
+    // Método que move uma peça de uma posição de origem até uma posição de destino 
     public void moverPeca(int linhaOrigem, char colunaOrigem, int linhaDestino, char colunaDestino){
+        
+        // Retorna false se o movimento for inválido
+        if(!checaMovimento(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino)){
+            return;
+        }
         
         // Convertendo numerações da tabela ASCII para índices de 0 a 7
         int lOrigem = linhaOrigem - 49;
@@ -239,7 +269,9 @@ public class Tabuleiro {
         posicoes[lOrigem][cOrigem].setOcupada(false);
     }
     
+    // Método que verifica e retorna a posição de um Rei da cor desejada
     private Posicao verificaPosicaoRei(boolean branca){
+        
         // Verifica a posição do Rei branco
         if(branca == true){
             for(int i = 0; i < 8; i++){
@@ -270,8 +302,8 @@ public class Tabuleiro {
     /* Método que verifica se o Rei está em xeque.
      * Caso o Rei seja capturado após o aviso de xeque, lança uma exceção do tipo
      * NullPointerException, indicando fim de jogo.
-    */
-    public boolean verificaReiEmXeque(boolean branca) throws NullPointerException{
+     */
+    public boolean verificaReiEmXeque(boolean branca) throws NullPointerException {
         
         // Retorna posição do Rei; caso ele tenha sido capturado, retorna nulo
         Posicao pRei = verificaPosicaoRei(branca);
@@ -289,9 +321,91 @@ public class Tabuleiro {
         return false;
     }
     
-    // Método que verifica se o Rei está em xeque-mate
-    public boolean verificaReiEmXequeMate(boolean branca){
-        return false;
+    /* Método que verifica se o Rei está em xeque-mate
+     * Caso o Rei seja capturado após o aviso de xeque, lança uma exceção do tipo
+     * NullPointerException, indicando fim de jogo.
+     */
+    public boolean verificaReiEmXequeMate(boolean branca) throws NullPointerException {
+        
+        // Se o Rei não está em xeque, então ele certamente não está em xeque-mate
+        if(!verificaReiEmXeque(branca)){
+            return false;
+        }
+        
+        boolean posicaoInicialmenteOcupada;
+        
+        /* Percorreremos as posições do tabuleiro, procurando por peças da mesma
+         * cor do Rei em xeque */
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+
+                if(posicoes[i][j].isOcupada() && posicoes[i][j].getPeca().isBranco() == branca){
+                    
+                    for(int k = 0; k < 8; k++){
+                        for(int l = 0; l < 8; l++){
+                            
+                           /* Ao testar os movimentos, algumas peças podem acabar sendo removidas.
+                            *
+                            * Por isso, utilizamos um objeto auxiliar da classe Peca para armazenar
+                            * as peças removidas e retorná-las ao desfazer o movimento.
+                            */
+                            Peca pAuxiliar = posicoes[k][l].getPeca();
+                                    
+                            // Para cada peça encontrada, testaremos todos os seus movimentos válidos
+                            if(checaMovimento(i + '1', (char)(j + 'a'), k + '1', (char)(l + 'a'))){
+                                
+                                /* Verificamos se a posição de destino está inicialmente ocupada,
+                                 * pois se estiver, devemos utilizar pAuxiliar para inserir a peça
+                                 * removida de volta nessa posição, ao desfazer o movimento. 
+                                 */
+                                posicaoInicialmenteOcupada = posicoes[k][l].isOcupada();
+                                
+                                // Movimentando peça
+                                inserirPecaEmPosicao(k, l, posicoes[i][j].getPeca());
+                                removerPecaDePosicao(i, j);
+
+                                /* Caso o movimento feito tire o Rei do xeque, então não é xeque-mate!
+                                 * Nesse caso, desfazemos o movimento feito. */
+                                if(!verificaReiEmXeque(branca)){
+                                    
+                                    inserirPecaEmPosicao(i, j, posicoes[k][l].getPeca());
+                                    removerPecaDePosicao(k, l);
+                                    
+                                    /* Se a posição era inicialmente ocupada, devemos
+                                     * retornar a peça que ocupava a posição. */
+                                    if(posicaoInicialmenteOcupada){
+                                        inserirPecaEmPosicao(k, l, pAuxiliar);
+                                    }
+                                    return false;    
+                                }
+                                // Devemos desfazer o movimento, mesmo que o Rei continue em xeque!
+                                inserirPecaEmPosicao(i, j, posicoes[k][l].getPeca());
+                                removerPecaDePosicao(k, l);
+                                
+                                /* Se a posição era inicialmente ocupada, devemos
+                                 * retornar a peça que ocupava a posição. */
+                                if(posicaoInicialmenteOcupada){
+                                    inserirPecaEmPosicao(k, l, pAuxiliar);
+                                }
+                            }
+                        }
+                    }
+                }            
+            }
+        }
+        return true;
+    }
+    
+    // Método auxiliar, utilizado para inserir uma peça em uma posição do tabuleiro
+    public void inserirPecaEmPosicao(int linha, int coluna, Peca peca){
+        posicoes[linha][coluna].setPeca(peca);
+        posicoes[linha][coluna].setOcupada(true);
+    }
+    
+    // Método auxiliar, utilizado para retirar uma peça de uma posição do tabuleiro
+    public void removerPecaDePosicao(int linha, int coluna){
+        posicoes[linha][coluna].setOcupada(false);
+        posicoes[linha][coluna].setPeca(null);
     }
     
     // Método que inicialmente insere as peças no tabuleiro, criando sua configuração inicial
@@ -340,15 +454,15 @@ public class Tabuleiro {
         }
     }
     
-    public Peca getPosicaoDaPeca(int linha, char coluna){
-        int lOrigem = linha - 49;
-        int cOrigem = coluna - 97;
-        
+    // Método getter que retorna uma posição do tabuleiro
+    public Posicao getPosicao(int linha, int coluna) {
         try{
-            return posicoes[lOrigem][cOrigem].getPeca();
+            return posicoes[linha][coluna];
         }
         catch(IndexOutOfBoundsException ex){
             return null;
         }
     }
+    
+    
 }
