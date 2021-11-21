@@ -1,17 +1,33 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import pecasxadrez.*;
 
 public class Jogo {
     private Tabuleiro tabuleiro;
     private Jogador jogador1;
     private Jogador jogador2;
+    
     private boolean inicio;
     private boolean xeque;
     private boolean xequeMate;
-    // turno = true (branco joga); turno = false (preto joga)
-    private boolean turno;
+    private boolean turno; // turno = true (branco joga); turno = false (preto joga)
+    
+    private Scanner input = new Scanner(System.in);
     
     // Construtor da classe Jogo
     public Jogo (String nome1, String nome2){
@@ -19,7 +35,14 @@ public class Jogo {
         this.jogador1 = new Jogador(nome1, true, criarPecas(true));
         this.jogador2 = new Jogador(nome2, false, criarPecas(false));
         
-        this.tabuleiro = new Tabuleiro(jogador1.getPecas(),  jogador2.getPecas());
+        try {
+            this.tabuleiro = new Tabuleiro(jogador1.getPecas(),  jogador2.getPecas());
+        } catch (IntervaloInvalido ex) {
+            System.out.println();
+            System.out.println(ex.toString());
+            System.out.println();
+            System.exit(1);
+        }
         
         inicio = true;
         xeque = false;
@@ -28,13 +51,15 @@ public class Jogo {
         turno = true; // branco começa jogando!
     }
     
+    public Jogo(File arquivo){
+        carregarPartida(arquivo);
+    }
+    
     /* Método principal da classe Jogo, reúne outros métodos e se comunica com
      * o usuário para realizar uma partida de xadrez! */
     public void partida(){
-        System.out.println(" / **** BEM-VINDOS AO JOGO DE XADREZ **** /");
         
-        System.out.println("\n" + jogador1.getNome() + " possui peças brancas e começa o jogo!\n");
-        
+        // A partida ocorre enquanto inicio = true e não houver um xeque-mate (!xequeMate)
         while(inicio && !xequeMate){
             
             movimentarPeca();
@@ -57,14 +82,11 @@ public class Jogo {
             reiEmXeque(false);
             reiEmXeque(true);
         }
+        System.exit(0);
     }
     
-    /* Método que se comunica com o usuário para solicitar os movimentos das peças
-    
-    */
+    // Método que se comunica com o usuário para solicitar os movimentos das peças
     private void movimentarPeca(){
-        
-        Scanner input = new Scanner(System.in);
         
         char[] coordenadasMovimentoOrigem = new char[2];
         char[] coordenadasMovimentoDestino = new char[2];
@@ -84,7 +106,7 @@ public class Jogo {
             
             // Loop enquanto a entrada da posição de origem for inválida
             while(!pOrigemValida){
-                System.out.println("\nInsira a posição da peça que deseja mover, " + jogadorTurno.getNome() + "! (-1 para sair)");
+                System.out.println("\nInsira a posição da peça que deseja mover, " + jogadorTurno.getNome() + "! (-1 para encerrar a partida)");
                 System.out.print("Posição de origem: ");
                 
                 movimentoOrigem = input.nextLine();
@@ -92,26 +114,26 @@ public class Jogo {
                 /* -1 encerra o jogo, perguntando aos jogadores se eles querem salvar
                  * o progresso de sua partida atual em um arquivo ou não. */
                 if("-1".equals(movimentoOrigem)){
-                    System.exit(0);
+                    verificaSeDesejaSalvar();
                 }
                 
                 /* Uma posição de origem desejada é inserida como uma String de dois caracteres (coluna e linha).
                  * Se a String tiver tamanho diferente de 2, a posição inserida é inválida! */
                 if(movimentoOrigem.length() != 2){
-                    System.out.println("Posição inválida!");
+                    System.out.println("\nPosição inválida!");
                     System.out.println();
                 }
                 else{
                     coordenadasMovimentoOrigem = movimentoOrigem.toCharArray();
                     if(!tabuleiro.verificaLimitesTabuleiro(coordenadasMovimentoOrigem[1], coordenadasMovimentoOrigem[0])){
-                        System.out.println("A posição escolhida é inválida!");
+                        System.out.println("\nA posição escolhida é inválida!");
                         continue;
                     }
                     pOrigemValida = true;
                 }
             }
             while(!pDestinoValida){
-                System.out.println("\nDigite a posição para onde deseja se mover, " + jogadorTurno.getNome() + "! (-1 para sair)");
+                System.out.println("\nInsira a posição para onde deseja se mover, " + jogadorTurno.getNome() + "! (-1 para encerrar a partida)");
                 System.out.print("Posição de destino: ");
                 
                 movimentoDestino = input.nextLine();
@@ -119,19 +141,19 @@ public class Jogo {
                 /* -1 encerra o jogo, perguntando aos jogadores se eles querem salvar
                  * o progresso de sua partida atual em um arquivo ou não. */
                 if("-1".equals(movimentoDestino)){
-                    System.exit(0);
+                    verificaSeDesejaSalvar();
                 }
                 
                 /* Uma posição de origem desejada é inserida como uma String de dois caracteres (coluna e linha).
                  * Se a String tiver tamanho diferente de 2, a posição inserida é inválida! */
                 if(movimentoDestino.length() != 2){
-                    System.out.println("Posição inválida!");
+                    System.out.println("\nPosição inválida!");
                     System.out.println();
                 }
                 else{
                     coordenadasMovimentoDestino = movimentoDestino.toCharArray();
                     if(!tabuleiro.verificaLimitesTabuleiro(coordenadasMovimentoDestino[1], coordenadasMovimentoDestino[0])){
-                        System.out.println("A posição escolhida é inválida!");
+                        System.out.println("\nA posição escolhida é inválida!");
                         continue;
                     }
                     pDestinoValida = true;
@@ -141,14 +163,14 @@ public class Jogo {
                 // Verifica se o jogador atual está movendo apenas suas peças
                 if(!jogadorTurno.isBranco() == tabuleiro.getPosicao(coordenadasMovimentoOrigem[1]-49,
                         coordenadasMovimentoOrigem[0]-97).getPeca().isBranco()){
-                    System.out.println("Você não pode mover as peças do jogador adversário!\n");
+                    System.out.println("\nVocê não pode mover as peças do jogador adversário!\n");
                     pOrigemValida = false;
                     pDestinoValida = false;
                     continue;
                 }
             }
             catch(NullPointerException ex){
-                System.out.println("Posições desocupadas são inválidas!");
+                System.out.println("\nPosições desocupadas são inválidas!");
                 pOrigemValida = false;
                 pDestinoValida = false;
                 continue;
@@ -157,7 +179,7 @@ public class Jogo {
             if(tabuleiro.checaMovimento(coordenadasMovimentoOrigem[1], coordenadasMovimentoOrigem[0], coordenadasMovimentoDestino[1], coordenadasMovimentoDestino[0])){
                 
                 if(checaSeMovimentoColocaReiEmXeque(coordenadasMovimentoOrigem[1], coordenadasMovimentoOrigem[0], coordenadasMovimentoDestino[1], coordenadasMovimentoDestino[0])){
-                    System.out.println("O movimento escolhido coloca seu rei em xeque!");
+                    System.out.println("\nO movimento escolhido coloca seu rei em xeque!");
                     pOrigemValida = false;
                     pDestinoValida = false;
                 }
@@ -170,14 +192,14 @@ public class Jogo {
                         return;
                     }
                     else{
-                        System.out.println("O movimento escolhido não tira o rei do xeque!");
+                        System.out.println("\nO movimento escolhido não tira o rei do xeque!");
                         pOrigemValida = false;
                         pDestinoValida = false;
                     }
                 }
             }
             else{
-                System.out.println("Movimento inválido!");
+                System.out.println("\nMovimento inválido!");
                 pOrigemValida = false;
                 pDestinoValida = false;
             }
@@ -266,8 +288,9 @@ public class Jogo {
             tabuleiro.inserirPecaEmPosicao(lDestino, cDestino, tabuleiro.getPosicao(lOrigem, cOrigem).getPeca());
             tabuleiro.removerPecaDePosicao(lOrigem, cOrigem);
             
-            /* Verifica o xeque do Rei de cor oposta ao jogador que joga no turno atual.
-             * Se o Rei estiver em xeque após o movimento, esse movimento é inválido! */
+            /* Verifica o xeque do Rei de cor igual à cor do jogador que joga no turno atual.
+             * Se o Rei estiver em xeque após o movimento, seu próprio Rei foi colocado em xeque!
+             * Nesse caso, o movimento é inválido! */
             if(tabuleiro.verificaReiEmXeque(isTurno())){
                 xeque = true;
                 tabuleiro.inserirPecaEmPosicao(lOrigem, cOrigem, tabuleiro.getPosicao(lDestino, cDestino).getPeca());
@@ -317,8 +340,8 @@ public class Jogo {
             tabuleiro.inserirPecaEmPosicao(lDestino, cDestino, tabuleiro.getPosicao(lOrigem, cOrigem).getPeca());
             tabuleiro.removerPecaDePosicao(lOrigem, cOrigem);
             
-            /* Verifica o xeque do Rei de cor oposta ao jogador que joga no turno atual.
-             * Se o Rei não estiver em xeque após o movimento, esse movimento é válido! */
+            /* Verifica o xeque do Rei de cor igual à cor do jogador que joga no turno atual.
+             * Se o Rei ainda estiver em xeque após o movimento, esse movimento é inválido! */
             if(!tabuleiro.verificaReiEmXeque(isTurno())){
                 xeque = false;
                 tabuleiro.inserirPecaEmPosicao(lOrigem, cOrigem, tabuleiro.getPosicao(lDestino, cDestino).getPeca());
@@ -377,12 +400,112 @@ public class Jogo {
         return pecas;
     }
     
-    public void salvarPartida(){
+    private void verificaSeDesejaSalvar(){
+        int opcao;
         
+        while(true){
+            System.out.println("\nDeseja salvar o progresso de sua partida?");
+            System.out.println();
+            System.out.println("1 - Sim");
+            System.out.println("2 - Não");
+            
+            try{
+                System.out.print("Opção desejada: ");
+                opcao = input.nextInt();
+                input.nextLine();
+            }
+            catch(InputMismatchException ex){
+                System.out.println("\nOpção inválida!\n");
+                input.nextLine();
+                continue;
+            }
+            switch(opcao){
+                case 1:
+                    salvarPartida();
+                    System.exit(0);
+                case 2:
+                    System.exit(0);
+                default:
+                    System.out.println("\nOpção inválida!\n");
+                    break;
+            }
+        }
     }
     
-    public void carregarPartida(){
-        
+    private void salvarPartida(){
+        while(true){
+            System.out.println("\nInsira o nome do arquivo texto onde deseja salvar o progresso de sua partida!");
+            System.out.println("Se o arquivo já existir, ele será sobreescrito. Caso contrário, um novo arquivo será criado!\n");
+            System.out.print("Nome do arquivo: ");
+            
+            String nomeArquivo = input.nextLine() + ".txt";
+            
+            try {
+                File save = new File(nomeArquivo);
+                
+                // Se o arquivo não existir, um novo arquivo será criado
+                if(!save.exists()){
+                    save.createNewFile();
+                }
+                
+                FileOutputStream fs = new FileOutputStream(save);
+                ObjectOutputStream os = new ObjectOutputStream(fs);
+                
+                // Salvando objetos no arquivo desejado
+                os.writeObject(this.jogador1);
+                os.writeObject(this.jogador2);
+                os.writeObject(this.tabuleiro);
+                os.writeBoolean(this.inicio);
+                os.writeBoolean(this.xeque);
+                os.writeBoolean(this.xequeMate);
+                os.writeBoolean(this.turno);
+                
+
+                
+                os.close();
+                fs.close();
+                
+                break;
+            }
+            catch (IOException ex) {
+                System.out.println("Erro ao salvar o progresso da partida em um arquivo!");
+                System.exit(1); // Saída do programa indicando erro
+            }            
+        }
+    }
+    
+    private void carregarPartida(File save){
+        if(save.exists()){
+            try{
+                FileInputStream fi = new FileInputStream(save);
+                ObjectInputStream oi = new ObjectInputStream(fi);
+                
+                this.jogador1 = (Jogador) oi.readObject();
+                this.jogador2 = (Jogador) oi.readObject();
+                this.tabuleiro = (Tabuleiro) oi.readObject();
+                this.inicio = (boolean) oi.readBoolean();
+                this.xeque = (boolean) oi.readBoolean();
+                this.xequeMate = (boolean) oi.readBoolean();
+                this.turno = (boolean) oi.readBoolean();
+                
+                oi.close();
+                fi.close();
+
+            }
+            catch (FileNotFoundException ex) {
+                System.out.println("Arquivo não encontrado!");
+            }
+            catch (IOException ex) {
+                System.out.println("Erro ao tentar carregar o arquivo!");
+                System.exit(1); // Saída do programa indicando erro
+            }
+            catch (ClassNotFoundException ex) {
+                System.out.println("Classe não encontrada!");
+            }    
+        }
+        else{
+            System.out.println("Arquivo não encontrado!");
+        }
     }
     
     /* Método que retorna a cor do jogador a jogar o turno atual

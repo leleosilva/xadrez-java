@@ -1,3 +1,8 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package pecasxadrez;
 
 public class Dama extends Peca {
@@ -20,15 +25,15 @@ public class Dama extends Peca {
         int distanciaLinha = linhaDestino - linhaOrigem;
         int distanciaColuna = colunaDestino - colunaOrigem;
         /*
-         * A dama pode se movimentar tanto como um bispo quanto como uma torre
-        */
+         * A dama pode se movimentar na diagonal, horizontal ou vertical
+         */
         
-        // Movimentando-se como um bispo
+        // Movimentando-se diagonalmente
         if(Math.abs(distanciaLinha) == Math.abs(distanciaColuna) && Math.abs(distanciaLinha) != 0){
             return true;
         }
         
-        // Movimentando-se como uma torre
+        // Movimentando-se horizontalmente
         else if(linhaOrigem == linhaDestino && colunaOrigem != colunaDestino){
             return true;
         }

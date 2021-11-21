@@ -1,34 +1,40 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
+import java.io.Serializable;
 import pecasxadrez.*;
 
-public class Tabuleiro {
+public class Tabuleiro implements Serializable {
     
     private Posicao posicoes[][];
     
     // Construtor da classe Tabuleiro
-    public Tabuleiro (Peca[] pecasBrancas, Peca[] pecasPretas){
+    public Tabuleiro (Peca[] pecasBrancas, Peca[] pecasPretas) throws IntervaloInvalido{
         this.posicoes = new Posicao[8][8]; 
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if(i+j % 2 == 0){
-                    // cria posição preta
+                if((i+j) % 2 == 0){
+                    // Cria posição preta
                     this.posicoes[i][j] = new Posicao(i+1, (char)(j + 97), false);
                 }
                 else{
-                    // cria posição branca
+                    // Cria posição branca
                     this.posicoes[i][j] = new Posicao(i+1, (char)(j + 97), true);
                 }
             }
         }
-        inserePecasTabuleiro(pecasBrancas);
-        inserePecasTabuleiro(pecasPretas);
+        inserePecasTabuleiro(pecasBrancas); // Insere peças brancas no tabuleiro
+        inserePecasTabuleiro(pecasPretas); // Insere peças pretas no tabuleiro
     }
     
-    // Impressão do tabuleiro de acordo com os turnos concluídos
+    // Impressão do tabuleiro atualizado de acordo com o último turno concluído
     public void imprimirTabuleiro () {
         System.out.println();
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++){ // Imprime índices das linhas
             System.out.print((i+1) + "  ");
             for (int j = 0; j < 8; j++){
                 if(posicoes[i][j].isOcupada()){ // Verifica se posição está ocupada
@@ -36,15 +42,20 @@ public class Tabuleiro {
                     System.out.print(posicoes[i][j].getPeca().desenho()); // Imprime representação da peça
                     System.out.print(" ");
                 }
-                else{
-                    System.out.print(" -" + " "); // Posição vazia
+                else{ // Posição vazia
+                    if(posicoes[i][j].isBranco()){
+                        System.out.print(" *" + " "); // Posição branca
+                    }
+                    else{
+                        System.out.print(" -" + " "); // Posição preta
+                    }
                 }
             }
             System.out.println();
         }
         System.out.println();
         System.out.print("  ");
-        for (int i = 0; i < 8; i++){ // Imprimindo caracteres das colunas
+        for (int i = 0; i < 8; i++){ // Imprime índices das colunas
             System.out.print("  " + (char)(i + 'a'));
         }
         System.out.println("\n");
@@ -416,12 +427,12 @@ public class Tabuleiro {
         
         
         if(pecas[0].isBranco()){
-            linha = 7; // Peças brancas (exceto peões) são inseridas na linha 7
-            posPeao = 6; // Peões brancos são inseridos na linha 6
+            linha = 7; // Peças brancas (exceto peões) são inseridas na linha 8 (índice 7)
+            posPeao = 6; // Peões brancos são inseridos na linha 7 (índice 6)
         }
         else{
-            linha = 0; // Peças pretas (exceto peões) são inseridas na linha 0
-            posPeao = 1; // Peões pretos são inseridos na linha 1
+            linha = 0; // Peças pretas (exceto peões) são inseridas na linha 1 (índice 0)
+            posPeao = 1; // Peões pretos são inseridos na linha 2 (índice 1)
         }
         for(int i = 0; i < 16; i++){
             if(i < 8){

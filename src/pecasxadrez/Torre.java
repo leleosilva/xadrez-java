@@ -1,3 +1,8 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package pecasxadrez;
 
 public class Torre extends Peca {

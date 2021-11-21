@@ -1,8 +1,14 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
+import java.io.Serializable;
 import pecasxadrez.Peca;
 
-public class Jogador {
+public class Jogador implements Serializable {
     private String nome;
     private boolean branco;
     private Peca[] pecas;
