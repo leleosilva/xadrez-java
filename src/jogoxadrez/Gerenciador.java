@@ -1,5 +1,11 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,7 +26,7 @@ public class Gerenciador {
             System.out.println();
             System.out.println("0 - Encerrar o gerenciador de partidas");
             System.out.println("1 - Iniciar nova partida");
-            System.out.println("2 - Retomar progresso de uma partida a partir de um arquivo");
+            System.out.println("2 - Retomar o progresso de uma partida salva em um arquivo");
             
             try{
                 System.out.print("Opção desejada: ");
@@ -92,10 +98,27 @@ public class Gerenciador {
                     break;
                     
                 case 2:
-                    System.out.println("\nInsira o nome do arquivo texto de onde você deseja carregar o progresso de sua partida!");
-                    System.out.print("Nome do arquivo: ");
-                    nomeArquivo = in.next();
-                    
+                    System.out.println("\nInsira o nome do arquivo texto de onde você deseja carregar"
+                            + " o progresso de sua partida! (-1 para voltar para o gerenciador de partidas)");
+                    while(true){
+                        System.out.print("Nome do arquivo: ");
+                        nomeArquivo = in.nextLine() + ".txt";
+                        
+                        if(nomeArquivo.equals("-1.txt")){
+                            break;
+                        }
+                        
+                        File save = new File(nomeArquivo);
+
+                        if(save.exists()){
+                            Jogo jogoExistente = new Jogo(save);
+                            jogoExistente.partida();
+                            break;
+                        }
+                        else{
+                            System.out.println("\nArquivo não encontrado! Insira o nome de um arquivo existente ou digite -1 para voltar para o gerenciador de partidas!");
+                        }
+                    }
                     break;
                     
                 default:

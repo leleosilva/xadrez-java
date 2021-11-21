@@ -1,6 +1,13 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package pecasxadrez;
 
-public abstract class Peca {
+import java.io.Serializable;
+
+public abstract class Peca implements Serializable {
     protected boolean branco;
     protected boolean capturada;
     

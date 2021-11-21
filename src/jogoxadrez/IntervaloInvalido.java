@@ -1,3 +1,8 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
 public class IntervaloInvalido extends Exception {

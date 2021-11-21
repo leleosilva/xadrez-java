@@ -1,22 +1,28 @@
+/* ALUNOS
+ * Cinthia Souza Costa - 792173
+ * Leonardo Cavalcante da Silva - 792190
+ */
+
 package jogoxadrez;
 
+import java.io.Serializable;
 import pecasxadrez.Peca;
 
-public class Posicao {
+public class Posicao implements Serializable {
     private int linha;
     private char coluna;
-    private boolean branco; // cor?
+    private boolean branco;
     private boolean ocupada;
     private Peca peca;
     
     // Construtor da classe Posicao
-    public Posicao(int linha, char coluna, boolean branco){
-        // ???????????????????
-        if(linha < 1 || linha > 8){
-        }
-        if(coluna < 'a' || coluna > 'h'){
-        }
+    public Posicao(int linha, char coluna, boolean branco) throws IntervaloInvalido{
         
+        // Intervalo inválido de acordo com os limites do tabuleiro, lança exceção IntervaloInvalido
+        if((linha < 1 || linha > 8) || (coluna < 'a' || coluna > 'h')){
+            throw new IntervaloInvalido(linha, coluna);
+        }
+        // Intervalo válido
         else if(linha >= 1 && linha <= 8){
             if(coluna >= 'a' && coluna <= 'h'){
                 this.linha = linha;
